@@ -9,13 +9,30 @@ sys.stdin = open(inpath, 'r')
 
 
 def stepPerms(n):
-    if n == 0 or n == 1:
-        return 1
+    steps = [1, 2, 3]
+    ways = dict()
 
-    if n == 2:
-        return 2
+    def climb(n, steps, ways):
+        ret = 0
+        for step in steps:
+            if n - step == 0:
+                ret += 1
+            elif n - step > 0:
+                if n - step not in ways:
+                    ways[n - step] = climb(n - step, steps, ways)
+                print('ways', ways, ways[n - step])
+                ret += ways[n - step]
+        return ret
 
-    return stepPerms(n-1)+stepPerms(n-2)+stepPerms(n-3)
+    return climb(n, steps, ways)
+# def stepPerms(n):
+#     if n == 0 or n == 1:
+#         return 1
+
+#     if n == 2:
+#         return 2
+
+#     return stepPerms(n-1)+stepPerms(n-2)+stepPerms(n-3)
 
 
 s = int(input())
